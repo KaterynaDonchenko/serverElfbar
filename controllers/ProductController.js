@@ -30,7 +30,11 @@ class ProductController {
             const product = await ProductService.getOne(req.params.id);
             return res.json(product);
         } catch (error) {
-            return res.status(500).json(error.message)
+            if (error.message === 'Product not found') {
+                return res.status(404).json({ message: 'Product not found' });
+            } else {
+                return res.status(500).json(error.message);
+            }
         }
     }
 

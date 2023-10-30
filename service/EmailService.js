@@ -6,7 +6,9 @@ class EmailService {
         email.userProductCart.forEach(item => {
             productString += `
             <tr>
-                <td><img src='http://localhost:3001/img/products/${item.img}' style="width: 70px; height: 70px"/></td>
+                <td><img src='https://solodkiypar.com.ua:3001/${item.img}' 
+                         style="width: 70px; height: 70px; background-color: #f4f3f5"/>
+                </td>
                 <td style="max-width: 200px;"><strong>${item.title}</strong></td>
                 <td><strong>${item.price}</strong> грн</td>
                 <td> x <strong>${item.counter}</strong></td>
@@ -35,8 +37,9 @@ class EmailService {
             <div>Телефон: ${email.phone}</div>
             <div>Спосіб доставки: ${email.deliveryMethod === 'nova' ? 'Hова Пошта' : 'Укрпошта'}</div>
             <div>${email.city.length > 0 ? `Адресса: ${email.city}, відділення: ${email.warehouse}` :  `Адресса: ${email.ukrDelivery}`}</div>
+            <div>${email.patronymic.length > 0 ? `По батькові: ${email.patronymic}` : ''}</div>
             <div>${email.checkbox === 'card' ? 'Оплата на картку' : 'Оплата при отриманні'}</div>
-            <div>Додаткова інформація: ${email.text}</div>
+            <div>${email.text.length > 0 ? `Додаткова інформація: ${email.text}` : ''}</div>
             <div>Загальна сума: ${email.total} грн</div> <br/>
             <table style="background-color: #f4f3f5">${productString}</table>
             `,

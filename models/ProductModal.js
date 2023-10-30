@@ -32,11 +32,7 @@ const ProductSchema = new mongoose.Schema({
     lable: {
         type: String,
         require: false
-    },
-    categoryUrl: {
-        type: String,
-        require: false
-    }    
+    }   
 });
 
 const ProductModel = mongoose.model('products', ProductSchema);
