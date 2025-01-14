@@ -26,26 +26,30 @@ class EmailService {
             },
         });
 
-        const sendEmail = await transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: 'katedonchenkov@gmail.com',
-        subject: 'Elfbar',
-        html:
-            `
-            <div>Ім*я: ${email.firstName}</div>
-            <div>Прізвище: ${email.lastName}</div>
-            <div>Телефон: ${email.phone}</div>
-            <div>Спосіб доставки: ${email.deliveryMethod === 'nova' ? 'Hова Пошта' : 'Укрпошта'}</div>
-            <div>${email.city.length > 0 ? `Адресса: ${email.city}, відділення: ${email.warehouse}` :  `Адресса: ${email.ukrDelivery}`}</div>
-            <div>${email.patronymic.length > 0 ? `По батькові: ${email.patronymic}` : ''}</div>
-            <div>${email.checkbox === 'card' ? 'Оплата на картку' : 'Оплата при отриманні'}</div>
-            <div>${email.text.length > 0 ? `Додаткова інформація: ${email.text}` : ''}</div>
-            <div>Загальна сума: ${email.total} грн</div> <br/>
-            <table style="background-color: #f4f3f5">${productString}</table>
-            `,
-        });
+        try {
+            const sendEmail = await transporter.sendMail({
+                from: process.env.SMTP_USER,
+                to: 'katedonchenkov@gmail.com',
+                subject: 'Elfbar',
+                html: `
+                    <div>Ім*я: ${email.firstName}</div>
+                    <div>Прізвище: ${email.lastName}</div>
+                    <div>Телефон: ${email.phone}</div>
+                    <div>Спосіб доставки: ${email.deliveryMethod === 'nova' ? 'Hова Пошта' : 'Укрпошта'}</div>
+                    <div>${email.city.length > 0 ? `Адресса: ${email.city}, відділення: ${email.warehouse}` : `Адресса: ${email.ukrDelivery}`}</div>
+                    <div>${email.checkbox === 'card' ? 'Оплата на картку' : 'Оплата при отриманні'}</div>
+                    <div>${email.text.length > 0 ? `Додаткова інформація: ${email.text}` : ''}</div>
+                    <div>Загальна сума: ${email.total} грн</div> <br/>
+                    <table style="background-color: #f4f3f5">${productString}</table>
+                `,
+            });
 
-        return sendEmail;
+            return sendEmail
+
+        } catch (error) {
+            console.log("Error sending email:", error);
+        }
+        
     }
 }
 

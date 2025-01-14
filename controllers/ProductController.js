@@ -8,7 +8,7 @@ class ProductController {
                 const { range } = req.query;
                 const [start, end] = JSON.parse(range);
 
-                const allProducts = await ProductService.getAll(req.query);
+                const allProducts = await ProductService.getAll(req.query.filter, req.query.sort, req.query.language);
 
                 const total = allProducts.length;
 
@@ -17,7 +17,7 @@ class ProductController {
                 
                 return res.json(productsInRange); 
             } else {
-                const allProducts = await ProductService.getAll();
+                const allProducts = await ProductService.getAll(req.query.filter, req.query.sort, req.query.language);
                 return res.json(allProducts)
             }
         } catch (error) {
@@ -27,7 +27,7 @@ class ProductController {
 
     getOne = async (req, res) => {
         try {
-            const product = await ProductService.getOne(req.params.id);
+            const product = await ProductService.getOne(req.params.id, req.query.language);
             return res.json(product);
         } catch (error) {
             if (error.message === 'Product not found') {
@@ -40,7 +40,7 @@ class ProductController {
 
     getOneNext = async (req, res) => {
         try {
-            const product = await ProductService.getOneNext(req.params.id);
+            const product = await ProductService.getOneNext(req.params.id, req.query.language);
             return res.json(product);
         } catch (error) {
             return res.status(500).json(error.message)
@@ -49,16 +49,16 @@ class ProductController {
 
     getOnePrev = async (req, res) => {
         try {
-            const product = await ProductService.getOnePrev(req.params.id);
+            const product = await ProductService.getOnePrev(req.params.id, req.query.language);
             return res.json(product);
         } catch (error) {
             return res.status(500).json(error.message)
         }
     }
 
-    getAllByLable = async (req, res) => {
+    getAllByLabel = async (req, res) => {
         try {
-            const product = await ProductService.getAllByLable(req.params.lable);
+            const product = await ProductService.getAllByLabel(req.params.label, req.query.language);
             return res.json(product) 
         } catch (error) {
             return res.status(500).json(error.message)
@@ -67,7 +67,7 @@ class ProductController {
 
     getAllBySearch = async (req, res) => {
         try {
-            const product = await ProductService.getAllBySearch(req.query.s);
+            const product = await ProductService.getAllBySearch(req.query.s, req.query.language);
             return res.json(product);
         } catch (error) {
             return res.status(500).json(error.message)
@@ -76,7 +76,7 @@ class ProductController {
 
     getAllByCategory = async (req, res) => {
         try {
-            const product = await ProductService.getAllByCategory(req.params.category);
+            const product = await ProductService.getAllByCategory(req.params.category, req.query.language);
             return res.json(product);
         } catch (error) {
             
@@ -85,7 +85,7 @@ class ProductController {
 
     getAllByFilter = async (req, res) => {
         try {
-            const product = await ProductService.getAllByFilter(req.query.orderby);
+            const product = await ProductService.getAllByFilter(req.query.orderby, req.query.language);
             return res.json(product);
         } catch (error) {
             

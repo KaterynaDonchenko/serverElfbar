@@ -1,17 +1,20 @@
 const FilterSlidesModal = require('../models/FilterSlidesModal');
+const FilterSlideEngModel = require('../models/FilterSlidesModalEng')
 const FileService = require('./FileService');
 const mongoose = require('mongoose');
 
 class FilterSlidesService {
 
-    getAll = async (query = null) => {
-        const getFilterSlides = await FilterSlidesModal.find();
+    getAll = async (filter, language) => {
+        const dataModel = getModel(language, FilterSlidesModal, FilterSlideEngModel)
 
-        if (!query || Object.keys(JSON.parse(query.filter)).length <= 0) { 
+        const getFilterSlides = await dataModel.find();
+
+        if (!filter || Object.keys(JSON.parse(filter)).length <= 0) {
             return getFilterSlides;
         }
 
-        const filters = JSON.parse(query.filter);
+        const filters = JSON.parse(filter);
 
         const getFiltredFilterSlides = getFilterSlides.filter(({name}) => 
             name.toLowerCase().indexOf(filters.name.toLowerCase()) > -1);
@@ -19,16 +22,20 @@ class FilterSlidesService {
         return getFiltredFilterSlides;
     }
 
-    getOne = async (id) => {
-        if (!id) {
+    getOne = async (id, language) => {
+        if (!id && !language) {
             throw new Error("Id is omitted")
         }
-        const getFilterSlide = await FilterSlidesModal.findById(id);
+        const dataModel = getModel(language, FilterSlidesModal, FilterSlideEngModel)
+
+        const getFilterSlide = await dataModel.findById(id);
         return getFilterSlide;
     }
 
-    getAllByCategory = async (category) => {
-        return await FilterSlidesModal.findOne({name: category})
+    getAllByCategory = async (category, language) => {
+        const dataModel = getModel(language, FilterSlidesModal, FilterSlideEngModel)
+
+        return await dataModel.findOne({name: category})
     }
 
     getAllCategory = async () => {

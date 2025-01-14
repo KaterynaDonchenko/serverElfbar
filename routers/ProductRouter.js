@@ -15,7 +15,7 @@ productRouter.get('/nextProduct/:id', ProductController.getOneNext);
 
 productRouter.get('/prevProduct/:id', ProductController.getOnePrev);
 
-productRouter.get('/lable/:lable', ProductController.getAllByLable);
+productRouter.get('/label/:label', ProductController.getAllByLabel);
 
 productRouter.get('/category/:category', ProductController.getAllByCategory);
 

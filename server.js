@@ -1,4 +1,4 @@
-require('dotenv').config();  // if you want to works impor/export, write in packege/lock.json - "type": "module"
+require('dotenv').config(); 
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');

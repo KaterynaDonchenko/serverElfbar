@@ -6,9 +6,9 @@ class FilterSlidesController {
 
             if (req.query.range) {
                 const { range } = req.query;
-                const [start, end] = JSON.parse(range);
+                const [start, end] = JSON.parse(range)
 
-                const filterSlides = await FilterSlidesService.getAll(req.query);
+                const filterSlides = await FilterSlidesService.getAll(req.query.filter, req.query.language);
 
                 const total = filterSlides.length;
 
@@ -17,7 +17,7 @@ class FilterSlidesController {
     
                 return res.json(filterSlidesInRange);   
             } else {
-                const filterSlides = await FilterSlidesService.getAll();
+                const filterSlides = await FilterSlidesService.getAll(req.query.filter, req.query.language);
 
                 return res.json(filterSlides);  
 
@@ -31,7 +31,7 @@ class FilterSlidesController {
 
     getOne = async (req, res) => {
         try {
-            const filterSlide = await FilterSlidesService.getOne(req.params.id);
+            const filterSlide = await FilterSlidesService.getOne(req.params.id, req.query.language);
             return res.json(filterSlide);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -40,7 +40,7 @@ class FilterSlidesController {
 
     getAllByCategory = async (req, res) => {
         try {
-            const allFilterSlides = await FilterSlidesService.getAllByCategory(req.params.category);
+            const allFilterSlides = await FilterSlidesService.getAllByCategory(req.params.category, req.query.language);
             return res.json(allFilterSlides);   
         } catch (error) {
             return res.status(500).json(error.message);
